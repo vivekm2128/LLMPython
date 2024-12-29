@@ -1,17 +1,13 @@
-from transformers import LlamaForCausalLM, LlamaTokenizer
-import torch
+from llama_cpp import Llama
 
-# Set to the path where your model is located
-model_path = "/home/ubuntu/.llama/checkpoints/Llama3.2-1B"
+# define n_ctx manually to permit larger contexts
+LLM = Llama(model_path="/home/ubuntu/.llama/checkpoints/Llama3.2-1B", n_ctx=512)
 
-# Load tokenizer and model
-tokenizer = LlamaTokenizer.from_pretrained(model_path)
-model = LlamaForCausalLM.from_pretrained(model_path)
+# create a text prompt
+prompt = "Tell me why life is so hard in 5 sentances?"
 
-# Use the model
-input_text = "Hello, how can I assist you today?"
-inputs = tokenizer(input_text, return_tensors="pt")
-outputs = model.generate(**inputs, max_length=50)
+# set max_tokens to 0 to remove the response size limit
+output = LLM(prompt, max_tokens=0)
 
-# Print the output
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+# display the response
+print(output["choices"][0]["text"])
