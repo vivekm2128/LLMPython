@@ -1,19 +1,17 @@
 from transformers import LlamaForCausalLM, LlamaTokenizer
 import torch
 
-# Replace with the path to your model directory
+# Set to the path where your model is located
 model_path = "/home/ubuntu/.llama/checkpoints/Llama3.2-1B"
 
-# Load the tokenizer and model
+# Load tokenizer and model
 tokenizer = LlamaTokenizer.from_pretrained(model_path)
 model = LlamaForCausalLM.from_pretrained(model_path)
 
-# Run the model on a sample input
+# Use the model
 input_text = "Hello, how can I assist you today?"
 inputs = tokenizer(input_text, return_tensors="pt")
-
-# Generate text using the model
 outputs = model.generate(**inputs, max_length=50)
 
-# Decode and print the output
+# Print the output
 print(tokenizer.decode(outputs[0], skip_special_tokens=True))
