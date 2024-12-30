@@ -42,4 +42,4 @@ max_length=400,
 
 for seq in sequences:
 
-print(f"{seq['generated_text']}")
+    print(f"{seq['generated_text']}")
